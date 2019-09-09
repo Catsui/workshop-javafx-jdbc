@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController implements Initializable, DataChangeListener {
@@ -97,7 +98,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnEDIT.setCellFactory(param -> new TableCell<Seller,Seller>(){
-			private final Button button = new Button("Edit");
+			private final Button button = new Button("Editar");
 			
 			@Override
 			protected void updateItem(Seller obj, boolean empty) {
@@ -119,7 +120,7 @@ public class SellerListController implements Initializable, DataChangeListener {
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Seller, Seller> () {
-			private final Button button = new Button("Remove");
+			private final Button button = new Button("Remover");
 			
 			@Override
 			protected void updateItem(Seller obj, boolean empty) {
@@ -169,7 +170,8 @@ public class SellerListController implements Initializable, DataChangeListener {
 			
 			SellerFormController controller = loader.getController();
 			controller.setSeller(obj);
-			controller.setSellerService(new SellerService());
+			controller.setServices(new SellerService(), new DepartmentService());
+			controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 			
